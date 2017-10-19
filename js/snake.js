@@ -21,16 +21,24 @@ class Game {
         console.log(e);
         switch(e.key) {
             case "ArrowLeft":
-                this.nextMove = "left";
+		if (this.nextMove != "right") {
+		   this.nextMove = "left";
+		}
                 break;
             case "ArrowUp":
-                this.nextMove = "up";
+		if (this.nextMove != "down") {
+		   this.nextMove = "up";
+		}
                 break;
             case "ArrowRight":
-                this.nextMove = "right";
+		if (this.nextMove != "left") {
+		   this.nextMove = "right";
+		}
                 break;
             case "ArrowDown":
-                this.nextMove = "down";
+		if (this.nextMove != "up") {
+		   this.nextMove = "down";
+		}
                 break;
             default:
                 // Do nothing just ignore it
@@ -113,8 +121,10 @@ class Game {
         }
 
         // Draw the food
-        ctx.fillStyle = 'green';
-        ctx.fillRect(this.food[0] * this.tileWidth, this.food[1] * this.tileHeight, this.tileWidth, this.tileHeight);
+		var food = new Image();
+		food.src = "js/Phone.jpg";
+		//TO DO : Randomize placement
+		ctx.drawImage(food, 254, 321);
 
         if (this.gameover) {
             ctx.font = '48px serif';
