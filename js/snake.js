@@ -11,6 +11,7 @@ class Game {
         // Initialize a 1 sized snake at the center of the game board
         this.snake = [[Math.round(width/(2*this.tileWidth)), Math.round(height/(2*this.tileHeight))]];
         this.food = undefined;
+        this.gameover = false;
         this.addFood();
     }
 
@@ -68,13 +69,17 @@ class Game {
         //TODO: Check next move is not a game over
         // 1) If snake is going out ouf the game
         if(newHead[0] < 0) {
+            this.gameover = true;
             newHead[0] = 0;
         } else if(newHead[0] >= Math.round(this.width/(this.tileWidth))) {
+            this.gameover = true;
             newHead[0] = Math.round(this.width/(this.tileWidth))-1;
         }
         if(newHead[1] < 0) {
+            this.gameover = true;
             newHead[1] = 0;
         } else if(newHead[1] >= Math.round(this.height/(this.tileHeight))) {
+            this.gameover = true;
             newHead[1] = Math.round(this.height/(this.tileHeight))-1;
         }
         // 2) If snake bites itself
@@ -102,14 +107,23 @@ class Game {
 
         // Draw the snake
         ctx.fillStyle = 'blue';
-        for(var i = 0; i < this.snake.length; i++) {
+        for (var i = 0; i < this.snake.length; i++) {
             var xy = this.snake[i];
-            ctx.fillRect(xy[0]*this.tileWidth, xy[1]*this.tileHeight, this.tileWidth, this.tileHeight);
+            ctx.fillRect(xy[0] * this.tileWidth, xy[1] * this.tileHeight, this.tileWidth, this.tileHeight);
         }
 
         // Draw the food
         ctx.fillStyle = 'green';
-        ctx.fillRect(this.food[0]*this.tileWidth, this.food[1]*this.tileHeight, this.tileWidth, this.tileHeight);
+        ctx.fillRect(this.food[0] * this.tileWidth, this.food[1] * this.tileHeight, this.tileWidth, this.tileHeight);
+
+        if (this.gameover) {
+            ctx.font = '48px serif';
+            ctx.fillStyle = 'black';
+            var displayGameOver = "GAME OVER";
+            var text = ctx.measureText(displayGameOver);
+            console.log(text.width);
+            ctx.fillText(displayGameOver, (this.width-text.width)/2, this.height / 2);
+        }
     }
 }
 
